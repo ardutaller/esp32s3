@@ -28,87 +28,282 @@
       padding: 30px 12px;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(77,220,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(77,220,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridMove 18s linear infinite;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 1px,
+        transparent 2px,
+        transparent 5px
+      );
+      pointer-events: none;
+      opacity: 0.25;
+    }
+
     .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding-bottom: 60px;
+      padding: 20px 0 60px;
     }
 
     img.logo {
-      width: 320px;
+      width: 360px;
       max-width: 80vw;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
       filter: drop-shadow(0 0 18px #4ddcff);
+      animation: floatLogo 4s ease-in-out infinite, blinkEyes 6s infinite;
     }
 
     .frame {
+      position: relative;
       max-width: 760px;
       margin: 0 auto;
-      padding: 40px 30px 60px;
+      padding: 42px 55px 70px;
       border-radius: 22px;
-      background: rgba(10, 20, 32, 0.75);
+      background: rgba(10, 20, 32, 0.72);
       border: 1px solid rgba(77, 220, 255, 0.45);
       box-shadow:
         0 0 30px rgba(77, 220, 255, 0.35),
         inset 0 0 30px rgba(77, 220, 255, 0.08);
+      backdrop-filter: blur(12px);
+      overflow: visible;
+      animation: activateSystem 1.4s ease-out forwards, pulseFrame 4s infinite 1.4s;
+    }
+
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(114,250,255,0.16) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: scanLight 5s infinite;
+    }
+
+    .frame::after {
+      content: "SYSTEM ACTIVATED";
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #72faff;
+      opacity: 0;
+      text-shadow: 0 0 12px #72faff;
+      animation: systemText 4s ease-in-out infinite 1.2s;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 7px 16px;
+      border: 1px solid rgba(77,220,255,0.5);
+      border-radius: 999px;
+      color: #72faff;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(77,220,255,0.08);
+      box-shadow: 0 0 14px rgba(77,220,255,0.35);
     }
 
     h1 {
-      font-size: clamp(26px, 5vw, 40px);
-      margin-bottom: 15px;
+      margin: 0 0 22px;
+      font-size: clamp(26px, 5vw, 42px);
+      color: #e8f7ff;
       text-shadow: 0 0 18px #4ddcff;
+      animation: pulseGlow 3s infinite;
     }
 
     p {
+      max-width: 620px;
+      margin: 12px auto;
       font-size: 18px;
-      margin: 10px auto;
-      max-width: 600px;
-    }
-
-    /* 🔥 BOTÓN PERSONALIZADO */
-    .flash-btn {
-      display: inline-block;
-      margin-top: 40px;
-      padding: 18px 34px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #001018;
-      background: linear-gradient(90deg, #4ddcff, #72faff);
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      box-shadow:
-        0 0 18px #4ddcff,
-        0 0 30px #72faff;
-      transition: all 0.25s ease;
-      letter-spacing: 1px;
-    }
-
-    .flash-btn:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow:
-        0 0 25px #72faff,
-        0 0 45px #72faff;
-    }
-
-    .flash-btn:active {
-      transform: scale(0.98);
-      box-shadow:
-        0 0 10px #4ddcff;
+      line-height: 1.6;
+      opacity: 0.9;
     }
 
     .status {
-      margin-top: 20px;
+      margin-top: 26px;
       font-size: 14px;
       color: #72faff;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+
+    .activation-bar {
+      width: 100%;
+      height: 8px;
+      margin: 28px auto 8px;
+      border-radius: 20px;
+      background: rgba(77, 220, 255, 0.12);
+      overflow: hidden;
+      box-shadow: inset 0 0 12px rgba(77,220,255,0.3);
+    }
+
+    .activation-bar span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #4ddcff, #72faff, #ffffff);
+      box-shadow: 0 0 18px #72faff;
+      animation: loadSystem 2.2s ease-out forwards;
+    }
+
+    .activation-text {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #72faff;
+      opacity: 0;
+      text-shadow: 0 0 10px #4ddcff;
+      animation: activationText 2.8s ease-out forwards;
+    }
+
+    esp-web-install-button {
+      display: block;
+      width: fit-content;
+      max-width: 100%;
+      margin: 40px auto 20px;
+      transform: none;
+      animation: none;
+      filter: drop-shadow(0 0 12px #72faff);
+    }
+
+    .panel-base {
+      margin-top: 30px;
+      height: 6px;
+      width: 100%;
+      border-radius: 10px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #4ddcff,
+        #72faff,
+        #4ddcff,
+        transparent
+      );
+      box-shadow:
+        0 0 12px #4ddcff,
+        0 0 25px #72faff;
       opacity: 0.8;
+      animation: pulseLine 2.5s infinite;
+    }
+
+    @keyframes activateSystem {
+      0% { opacity: 0; transform: scale(0.92) translateY(25px); filter: blur(8px); }
+      60% { opacity: 1; transform: scale(1.02) translateY(0); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes loadSystem {
+      0% { width: 0%; }
+      65% { width: 78%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes activationText {
+      0%, 35% { opacity: 0; transform: translateY(6px); }
+      60%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes systemText {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes gridMove {
+      from { background-position: 0 0; }
+      to { background-position: 40px 40px; }
+    }
+
+    @keyframes scanLight {
+      0% { transform: translateX(-100%); }
+      45%, 100% { transform: translateX(100%); }
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes blinkEyes {
+      0%, 98%, 100% { opacity: 1; }
+      99% { opacity: 0.35; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 12px #4ddcff; }
+      50% { text-shadow: 0 0 30px #72faff; }
+    }
+
+    @keyframes pulseFrame {
+      0%, 100% {
+        box-shadow:
+          0 0 30px rgba(77, 220, 255, 0.35),
+          inset 0 0 30px rgba(77, 220, 255, 0.08);
+      }
+      50% {
+        box-shadow:
+          0 0 55px rgba(114, 250, 255, 0.65),
+          inset 0 0 40px rgba(114, 250, 255, 0.14);
+      }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.6; transform: scaleX(0.95); }
+      50% { opacity: 1; transform: scaleX(1); }
     }
 
     @media (max-width: 600px) {
-      .flash-btn {
-        width: 100%;
-        font-size: 18px;
-        padding: 16px;
+      body {
+        padding: 20px 10px;
+      }
+
+      .container {
+        padding-bottom: 80px;
+      }
+
+      img.logo {
+        width: 280px;
+        max-width: 90vw;
+        margin-bottom: 24px;
+      }
+
+      .frame {
+        padding: 34px 20px 50px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .frame::after {
+        top: 12px;
+        right: 14px;
+        font-size: 9px;
       }
     }
   </style>
@@ -119,22 +314,25 @@
     <img src="logo.png" class="logo" alt="Logo">
 
     <div class="frame">
-      <h1>Carga Firmware ESP32-S3</h1>
+      <div class="tag">Firmware Upload System</div>
 
-      <p>Conecta tu dispositivo por USB y pulsa el botón para instalar.</p>
+      <h1>Carga Firmware ESP32-S3 STEAMakers AI</h1>
 
-      <div class="status">ESP32-S3 · USB READY</div>
+      <p>Conecta tu dispositivo mediante USB y presiona el botón para comenzar la instalación.</p>
+      <p>Adaptado por www.franciscojose.es. Basado en ESP Web Tools.</p>
 
-      <!-- Script obligatorio -->
+      <div class="status">ESP32-S3 · KS5034 · USB READY</div>
+
+      <div class="activation-bar">
+        <span></span>
+      </div>
+
+      <div class="activation-text">INICIALIZANDO SISTEMA · LISTO PARA TRANSFERENCIA</div>
+
       <script type="module" src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js"></script>
+      <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
 
-      <!-- 🔥 BOTÓN GRANDE PERSONALIZADO -->
-      <esp-web-install-button manifest="manifest.json">
-        <button slot="activate" class="flash-btn">
-          🚀 INSTALAR FIRMWARE
-        </button>
-      </esp-web-install-button>
-
+      <div class="panel-base"></div>
     </div>
   </main>
 </body>
