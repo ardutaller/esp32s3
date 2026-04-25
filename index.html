@@ -19,7 +19,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      overflow: auto;
       text-align: center;
     }
 
@@ -91,6 +91,7 @@
       );
       transform: translateX(-100%);
       animation: scanLight 5s infinite;
+      pointer-events: none;
     }
 
     .frame::after {
@@ -144,6 +145,52 @@
       opacity: 0.85;
     }
 
+    .selector-box {
+      margin: 32px auto 10px;
+      max-width: 460px;
+    }
+
+    .selector-box label {
+      display: block;
+      margin-bottom: 10px;
+      color: #72faff;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #4ddcff;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(77,220,255,0.65);
+      background: rgba(5, 12, 20, 0.9);
+      color: #d2e3ff;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      box-shadow:
+        0 0 18px rgba(77,220,255,0.25),
+        inset 0 0 14px rgba(77,220,255,0.08);
+      cursor: pointer;
+    }
+
+    select:focus {
+      border-color: #72faff;
+      box-shadow:
+        0 0 25px rgba(114,250,255,0.55),
+        inset 0 0 18px rgba(114,250,255,0.14);
+    }
+
+    .selected-firmware {
+      margin-top: 12px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #72faff;
+      opacity: 0.85;
+    }
+
     .activation-bar {
       width: 100%;
       height: 8px;
@@ -175,15 +222,15 @@
 
     esp-web-install-button {
       display: inline-block;
-      margin-top: 40px;
-      margin-bottom: 10px;
+      margin-top: 42px;
+      margin-bottom: 12px;
       transform: scale(1.3);
       animation: pulseButton 2.5s infinite;
       filter: drop-shadow(0 0 12px #72faff);
     }
 
     .panel-base {
-      margin-top: 30px;
+      margin-top: 34px;
       height: 6px;
       width: 100%;
       border-radius: 10px;
@@ -297,10 +344,6 @@
     }
 
     @media (max-width: 600px) {
-      body {
-        overflow: auto;
-      }
-
       .frame {
         padding: 34px 24px 58px;
       }
@@ -336,7 +379,7 @@
 
       <h1>Carga Firmware ESP32-S3 STEAMakers AI</h1>
 
-      <p>Conecta tu dispositivo mediante USB y presiona el botón para comenzar la instalación.</p>
+      <p>Selecciona el firmware que quieres instalar, conecta tu dispositivo mediante USB y presiona el botón para comenzar.</p>
       <p>Adaptado por www.franciscojose.es. Basado en ESP Web Tools.</p>
 
       <div class="status">ESP32-S3 · KS5034 · USB READY</div>
@@ -347,11 +390,40 @@
 
       <div class="activation-text">INICIALIZANDO SISTEMA · LISTO PARA TRANSFERENCIA</div>
 
+      <div class="selector-box">
+        <label for="firmwareSelect">Seleccionar firmware</label>
+
+        <select id="firmwareSelect">
+          <option value="manifest.json">Firmware principal</option>
+          <option value="manifest-demo.json">Firmware demo</option>
+          <option value="manifest-beta.json">Firmware beta</option>
+        </select>
+
+        <div class="selected-firmware" id="selectedFirmware">
+          Firmware seleccionado: Firmware principal
+        </div>
+      </div>
+
       <script type="module" src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js"></script>
-      <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+
+      <esp-web-install-button id="installButton" manifest="manifest.json"></esp-web-install-button>
 
       <div class="panel-base"></div>
     </div>
   </main>
+
+  <script>
+    const firmwareSelect = document.getElementById("firmwareSelect");
+    const installButton = document.getElementById("installButton");
+    const selectedFirmware = document.getElementById("selectedFirmware");
+
+    firmwareSelect.addEventListener("change", function () {
+      const manifest = this.value;
+      const firmwareName = this.options[this.selectedIndex].text;
+
+      installButton.setAttribute("manifest", manifest);
+      selectedFirmware.textContent = "Firmware seleccionado: " + firmwareName;
+    });
+  </script>
 </body>
 </html>
