@@ -145,6 +145,20 @@
       opacity: 0.9;
     }
 
+    /* ESTILO ENLACES */
+    .link {
+      color: #72faff;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(114,250,255,0.4);
+      transition: all 0.25s ease;
+    }
+
+    .link:hover {
+      color: #ffffff;
+      text-shadow: 0 0 10px #72faff;
+      border-bottom: 1px solid #72faff;
+    }
+
     .status {
       margin-top: 26px;
       font-size: 14px;
@@ -187,8 +201,6 @@
       width: fit-content;
       max-width: 100%;
       margin: 40px auto 20px;
-      transform: none;
-      animation: none;
       filter: drop-shadow(0 0 12px #72faff);
     }
 
@@ -346,38 +358,13 @@
     }
 
     @media (max-width: 600px) {
-      body {
-        padding: 20px 10px;
-      }
-
-      .container {
-        padding-bottom: 80px;
-      }
-
-      img.logo {
-        width: 280px;
-        max-width: 90vw;
-        margin-bottom: 24px;
-      }
-
-      .frame {
-        padding: 34px 20px 50px;
-      }
-
-      p {
-        font-size: 16px;
-      }
-
-      .frame::after {
-        top: 12px;
-        right: 14px;
-        font-size: 9px;
-      }
-
-      .download-btn {
-        font-size: 12px;
-        padding: 11px 18px;
-      }
+      body { padding: 20px 10px; }
+      .container { padding-bottom: 80px; }
+      img.logo { width: 280px; max-width: 90vw; margin-bottom: 24px; }
+      .frame { padding: 34px 20px 50px; }
+      p { font-size: 16px; }
+      .frame::after { top: 12px; right: 14px; font-size: 9px; }
+      .download-btn { font-size: 12px; padding: 11px 18px; }
     }
   </style>
 </head>
@@ -392,13 +379,16 @@
       <h1>Carga Firmware ESP32-S3 STEAMakers AI</h1>
 
       <p>Conecta tu dispositivo mediante USB y presiona el botón para comenzar la instalación.</p>
-      <p>Adaptado por www.franciscojose.es. Basado en ESP Web Tools.</p>
+      <p>
+        Adaptado por 
+        <a href="https://www.franciscojose.es" target="_blank" class="link">www.franciscojose.es</a>. 
+        Basado en 
+        <a href="https://esphome.github.io/esp-web-tools/" target="_blank" class="link">ESP Web Tools</a>.
+      </p>
 
       <div class="status">ESP32-S3 · KS5034 · USB READY</div>
 
-      <div class="activation-bar">
-        <span></span>
-      </div>
+      <div class="activation-bar"><span></span></div>
 
       <div class="activation-text">INICIALIZANDO SISTEMA · LISTO PARA TRANSFERENCIA</div>
 
@@ -407,7 +397,6 @@
 
       <a href="https://drive.google.com/file/d/1kcNIqc7HvtjqtMm7ZS_FErCn9hLfUuIZ/view?usp=drive_link"
          target="_blank"
-         rel="noopener noreferrer"
          class="download-btn">
         <span class="download-icon">⬇</span>
         <span>DESCARGAR E INSTALAR CONTROLADOR</span>
